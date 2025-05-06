@@ -68,7 +68,7 @@ const Dashboard = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
+                <a href="/add" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
                   Weddings
                 </a>
               </li>

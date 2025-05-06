@@ -1,6 +1,9 @@
+// pages/manageWedding.js
+
 import { useEffect, useState } from 'react';
 import supabase from '../../lib/supabaseClient';
 import { useRouter } from 'next/router';
+import Sidebar from '../../components/Sidebar'; // Import the Sidebar component
 import '../../app/globals.css'; // Import global styles if needed
 
 const ManageWedding = () => {
@@ -31,7 +34,7 @@ const ManageWedding = () => {
       const { data: responsesData, error: responsesError } = await supabase
         .from('user_responses')
         .select('*')
-        .eq('', id); // Fetch responses related to this wedding
+        .eq('wedding_id', id); // Fetch responses related to this wedding (assuming you have a 'wedding_id' field)
 
       if (responsesError) {
         console.error('Error fetching responses:', responsesError.message);
@@ -61,54 +64,8 @@ const ManageWedding = () => {
 
   return (
     <div className="min-h-screen flex">
-      {/* Sidebar */}
-      <div className="w-1/4 bg-gray-800 text-white flex flex-col justify-between p-6">
-        <div>
-          <h1 className="text-2xl font-semibold mb-8">Admin Dashboard</h1>
-          <nav>
-            <ul className="space-y-4">
-              <li>
-                <a href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
-                  Weddings
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
-                  Menu Management
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
-                  Table Management
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
-                  Kitchen Management
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
-                  Organiser Management
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div>
-          <button
-            onClick={handleLogout}
-            className="w-full py-2 bg-red-500 text-white rounded-md"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      {/* Sidebar Component */}
+      <Sidebar handleLogout={handleLogout} />
 
       {/* Main content */}
       <div className="flex-1 p-6 bg-gray-100">
@@ -128,7 +85,7 @@ const ManageWedding = () => {
         {/* Button to go to RSVP form */}
         <div>
           <button
-            onClick={() => router.push(`/rsvp/${id}}`)} // Redirect to RSVP form for this wedding
+            onClick={() => router.push(`/rsvp/${id}`)} // Redirect to RSVP form for this wedding
             className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           >
             Go to RSVP Form

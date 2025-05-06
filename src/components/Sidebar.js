@@ -1,6 +1,11 @@
-import Link from 'next/link';
+// components/Sidebar.js
 
-const Sidebar = ({ id, onLogout }) => {
+import React from 'react';
+import { useRouter } from 'next/router';
+
+const Sidebar = ({ handleLogout }) => {
+  const router = useRouter();
+
   return (
     <div className="w-1/4 bg-gray-800 text-white flex flex-col justify-between p-6">
       <div>
@@ -8,44 +13,59 @@ const Sidebar = ({ id, onLogout }) => {
         <nav>
           <ul className="space-y-4">
             <li>
-              <Link href="/dashboard" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
+              <a
+                href="#"
+                className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md"
+              >
                 Dashboard
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href={`/manange-wedding/${id}`} className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
+              <a
+                href="#"
+                className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md"
+              >
                 Weddings
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
+              <a
+                href="#"
+                className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md"
+              >
                 Menu Management
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
-                href={`/manage-wedding/table-management/${id}`}
+              <a
+                href="#"
                 className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md"
               >
                 Table Management
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
+              <a
+                href="#"
+                className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md"
+              >
                 Kitchen Management
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href="#" className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md">
+              <a
+                href="#"
+                className="text-lg py-2 hover:bg-gray-700 px-4 block rounded-md"
+              >
                 Organiser Management
-              </Link>
+              </a>
             </li>
           </ul>
         </nav>
       </div>
       <div>
         <button
-          onClick={onLogout}
+          onClick={handleLogout}
           className="w-full py-2 bg-red-500 text-white rounded-md"
         >
           Logout

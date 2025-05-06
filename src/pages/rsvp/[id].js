@@ -17,12 +17,14 @@ const UserManagement = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  // Redirect to manage-wedding if no id in URL
   useEffect(() => {
     if (!id) {
       router.push('/manage-wedding');
     }
   }, [id, router]);
 
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -40,23 +42,34 @@ const UserManagement = () => {
     fetchUserData();
   }, [router]);
 
+  // Fetch menu options for the selected wedding
   useEffect(() => {
     const fetchMenuOptions = async () => {
       if (!id) return;
 
+      // Ensure the `id` is sanitized to remove any extraneous characters
+      const sanitizedWeddingId = id.toString().replace(/[{}]/g, ''); 
+
       const { data, error } = await supabase
         .from('menu_options')
         .select('course, item')
-        .eq('wedding_id', id);
+        .eq('wedding_id', sanitizedWeddingId);  // Use wedding_id here
 
       if (error) {
         console.error('Error fetching menu options:', error);
         return;
       }
 
-      const starters = data.filter(option => option.course === 'starter').map(opt => opt.item);
-      const mains = data.filter(option => option.course === 'main').map(opt => opt.item);
-      const desserts = data.filter(option => option.course === 'dessert').map(opt => opt.item);
+      // Group items by course
+      const starters = [];
+      const mains = [];
+      const desserts = [];
+
+      data.forEach(({ course, item }) => {
+        if (course === 'starter') starters.push(item);
+        else if (course === 'main') mains.push(item);
+        else if (course === 'dessert') desserts.push(item);
+      });
 
       setStarterOptions(starters);
       setMainOptions(mains);
@@ -66,6 +79,7 @@ const UserManagement = () => {
     fetchMenuOptions();
   }, [id]);
 
+  // Handle form submission
   const handleRSVPSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,6 +101,7 @@ const UserManagement = () => {
         dessert,
         seats_required: seatsRequired,
       }]);
+
 
       if (error) {
         throw error;
